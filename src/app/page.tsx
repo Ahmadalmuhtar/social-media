@@ -8,6 +8,7 @@ import {
   getUsers,
 } from "./server/queries";
 import { User } from "@prisma/client";
+import { SessionProvider, useSession } from "next-auth/react";
 
 export default function Home() {
   const [openAddForm, setOpenAddForm] = useState(false);
@@ -17,6 +18,7 @@ export default function Home() {
     name: "",
     email: "",
   });
+  const {data: session, status} = useSession()
 
   const getAllUsers = async () => {
     const allUsers = await getUsers();
@@ -39,6 +41,7 @@ export default function Home() {
     await deleteUserById(id);
     setStateChanged((prev) => !prev);
   };
+  console.log(session)
 
   return (
     <>
@@ -88,16 +91,26 @@ export default function Home() {
             >
               Add User
             </button>
+            {status === "loading" && "Loading..."}
+            {session ?
+            <>
+            <a href="/api/auth/signout"
+              className="border px-3 py-2 bg-black text-white rounded-md text-center">
+              Logout
+            </a>
+            <p>Wlecome {session?.user?.name}</p>
+            </> :
             <a href="/api/auth/signin"
               className="border px-3 py-2 bg-black text-white rounded-md text-center">
               Login
             </a>
+            }
             <ul>
               {users?.map((user) => (
                 <li
-                  key={user.id}
-                  onClick={() => handleDelete(user.id)}
-                  className="cursor-pointer"
+                key={user.id}
+                onClick={() => handleDelete(user.id)}
+                className="cursor-pointer"
                 >
                   {user.name}
                 </li>
