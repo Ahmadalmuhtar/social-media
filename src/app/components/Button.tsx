@@ -1,7 +1,7 @@
-const Button = (onclick: React.MouseEventHandler, children: string) => {
+const Button = (onclick: React.MouseEventHandler, text: string) => {
   return (
     <button onClick={onclick} className="border border-spacing-3">
-      {children}
+      {text}
     </button>
   );
 };

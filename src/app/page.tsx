@@ -81,13 +81,17 @@ export default function Home() {
             </button>
           </form>
         ) : (
-          <>
+          <div className="flex flex-col space-y-4">
             <button
-              className="border border-spacing-3"
+              className="border px-3 py-2 bg-black text-white rounded-md"
               onClick={() => setOpenAddForm((prev) => !prev)}
             >
               Add User
             </button>
+            <a href="/api/auth/signin"
+              className="border px-3 py-2 bg-black text-white rounded-md text-center">
+              Login
+            </a>
             <ul>
               {users?.map((user) => (
                 <li
@@ -99,7 +103,7 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </>
+          </div>
         )}
       </div>
     </>
