@@ -6,6 +6,43 @@ export type CreateUserPayload = {
   email: string;
 };
 
+export type CreatePostPayload = {
+  title: string;
+  content: string;
+  published: boolean;
+};
+
+export async function createPost(
+  payload: CreatePostPayload,
+  userEmail: string
+) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userEmail,
+      },
+    });
+    if (!user) {
+      throw new Error("User was not foud");
+    }
+    const post = await prisma.post.create({
+      data: {
+        title: payload.title,
+        content: payload.title,
+        published: payload.published,
+        author: {
+          connect: {
+            email: user.email,
+          },
+        },
+      },
+    });
+    return post;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function createUser(payload: CreateUserPayload) {
   try {
     const user = await prisma.user.create({
