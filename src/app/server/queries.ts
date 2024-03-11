@@ -5,9 +5,6 @@ export type CreateUserPayload = {
   name: string;
   email: string;
 };
-
-<<<<<<< Updated upstream
-=======
 export type CreatePostPayload = {
   title: string;
   content: string;
@@ -29,7 +26,6 @@ export async function createPost(payload: CreatePostPayload) {
   }
 }
 
->>>>>>> Stashed changes
 export async function createUser(payload: CreateUserPayload) {
   try {
     const user = await prisma.user.create({
@@ -46,6 +42,11 @@ export async function createUser(payload: CreateUserPayload) {
 export async function getUsers() {
   const users = await prisma.user.findMany();
   return users;
+}
+
+export async function getPosts() {
+  const posts = await prisma.post.findMany();
+  return posts;
 }
 
 export async function getUserById(userId: number) {
