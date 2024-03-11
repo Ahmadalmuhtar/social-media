@@ -1,32 +1,26 @@
-"use client";
 
-import { Post } from "@prisma/client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { getPosts } from "../server/queries";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
-const Posts = () => {
-  const [posts, setPosts] = useState<Post[]>();
-  const router = useRouter();
+const Posts = async () => {
 
-  useEffect(() => {
-    const getAllPosts = async () => {
-      const allPosts = await getPosts();
-      setPosts(allPosts);
-    };
-    getAllPosts();
-  }, []);
+  const posts = await getPosts()
+
+
   return (
     <>
       <ul className="text-center py-14">
         {posts?.map((post) => (
+          <Link href={`/posts/${post.id}`} passHref>
           <li
             key={post.id}
-            onClick={() => router.push(`/posts`)}
+
             className="cursor-pointer"
           >
             {post.title}
           </li>
+          </Link>
         ))}
       </ul>
     </>

@@ -23,11 +23,14 @@ export default function Home() {
     name: "",
     email: "",
   });
+
+  const {data: session, status} = useSession()
+
   const [postData, setPostData] = useState<CreatePostPayload>({
     title: "",
     content: "",
     published: false,
-    authorId: 21,
+
   });
   const { data: session, status } = useSession();
 
@@ -59,13 +62,19 @@ export default function Home() {
     setStateChanged((prev) => !prev);
   };
 
+
+  const handleDelete = async (id: number) => {
+    await deleteUserById(id);
+    setStateChanged((prev) => !prev);
+
   const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
     await createPost(postData);
     console.log(postData);
     console.log(session?.user);
-    setPostData({ title: "", content: "", published: false, authorId: 21 });
+    setPostData({ title: "", content: "", published: false});
     setOpenFormPost(false);
+
   };
   console.log(status);
 

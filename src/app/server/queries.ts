@@ -5,34 +5,19 @@ export type CreateUserPayload = {
   name: string;
   email: string;
 };
-
 export type CreatePostPayload = {
   title: string;
   content: string;
   published: boolean;
-  authorId: number;
 };
 
 export async function createPost(payload: CreatePostPayload) {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: payload.authorId,
-      },
-    });
-    if (!user) {
-      throw new Error("Author was not foud");
-    }
     const post = await prisma.post.create({
       data: {
         title: payload.title,
         content: payload.title,
         published: payload.published,
-        author: {
-          connect: {
-            id: payload.authorId,
-          },
-        },
       },
     });
     return post;
