@@ -18,7 +18,16 @@ export default function Home() {
     name: "",
     email: "",
   });
+<<<<<<< Updated upstream
   const {data: session, status} = useSession()
+=======
+  const [postData, setPostData] = useState<CreatePostPayload>({
+    title: "",
+    content: "",
+    published: false,
+  });
+  const { data: session, status } = useSession();
+>>>>>>> Stashed changes
 
   const getAllUsers = async () => {
     const allUsers = await getUsers();
@@ -37,9 +46,19 @@ export default function Home() {
     setStateChanged((prev) => !prev);
   };
 
+<<<<<<< Updated upstream
   const handleDelete = async (id: number) => {
     await deleteUserById(id);
     setStateChanged((prev) => !prev);
+=======
+  const handleAddPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await createPost(postData);
+    console.log(postData);
+    console.log(session?.user);
+    setPostData({ title: "", content: "", published: false});
+    setOpenFormPost(false);
+>>>>>>> Stashed changes
   };
   console.log(session)
 

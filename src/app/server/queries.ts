@@ -6,6 +6,30 @@ export type CreateUserPayload = {
   email: string;
 };
 
+<<<<<<< Updated upstream
+=======
+export type CreatePostPayload = {
+  title: string;
+  content: string;
+  published: boolean;
+};
+
+export async function createPost(payload: CreatePostPayload) {
+  try {
+    const post = await prisma.post.create({
+      data: {
+        title: payload.title,
+        content: payload.title,
+        published: payload.published,
+      },
+    });
+    return post;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+>>>>>>> Stashed changes
 export async function createUser(payload: CreateUserPayload) {
   try {
     const user = await prisma.user.create({
