@@ -7,7 +7,7 @@ export type CreateUserPayload = {
 };
 export type CreatePostPayload = {
   title: string;
-  content: string;
+  content: string | null;
   published: boolean;
 };
 
@@ -56,6 +56,25 @@ export async function getUserById(userId: number) {
     },
   });
   return user;
+}
+
+export async function getPostById(postId: number): Promise<CreatePostPayload | null>{
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId }
+    })
+    if(!post){
+      return null
+    }
+    return {
+      title: post.title,
+      content: post.content ?? null,
+      published: post.published
+    }
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }
 
 export async function deleteUserById(userId: number) {
