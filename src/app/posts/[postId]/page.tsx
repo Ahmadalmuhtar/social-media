@@ -6,6 +6,8 @@ import {
   deletePostById,
   getPostById,
 } from "@/app/server/queries";
+import { Post } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function postDetails({
@@ -13,7 +15,8 @@ export default function postDetails({
 }: {
   params: { postId: string };
 }) {
-  const [post, setPost] = useState<CreatePostPayload | null>(null);
+  const router = useRouter();
+  const [post, setPost] = useState<Post | null>();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -31,18 +34,22 @@ export default function postDetails({
 
   const handleDeletePost = async (id: number) => {
     await deletePostById(id);
+    router.push("/posts");
   };
 
   return (
     <div className="text-center py-24">
       <p>{post?.title}</p>
       <p>{post?.content}</p>
-      <div className="py-6">
-        <Button
-          text="Delete Post"
-          onClick={() => handleDeletePost(parseInt(params.postId))}
-        />
-      </div>
+      {post?.id && (
+        <div className="py-6">
+          <Button
+            variant="danger"
+            onClick={() => handleDeletePost(post?.id)}
+            text="Delete Post"
+          />
+        </div>
+      )}
     </div>
   );
 }
