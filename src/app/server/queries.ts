@@ -84,3 +84,11 @@ export async function deleteUserById(userId: number) {
     },
   });
 }
+
+export async function deletePostById(postId: number){
+  const post = await prisma.post.delete({
+    where: {
+      id: postId
+    }
+  })
+}
