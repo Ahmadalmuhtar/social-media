@@ -17,7 +17,6 @@ import Button from "./components/Button";
 export default function Home() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const [users, setUsers] = useState<User[]>();
-  const [posts, setPosts] = useState<Post[]>();
   const [stateChanged, setStateChanged] = useState(false);
   const [openFormPost, setOpenFormPost] = useState(false);
   const [userData, setUserData] = useState<CreateUserPayload>({
@@ -38,14 +37,8 @@ export default function Home() {
     setUsers(allUsers);
   };
 
-  const getAllPosts = async () => {
-    const allPosts = await getPosts();
-    setPosts(allPosts);
-  };
-
   useEffect(() => {
     getAllUsers();
-    getAllPosts();
   }, [stateChanged]);
 
   const handleDelete = async (id: number) => {
@@ -116,6 +109,7 @@ export default function Home() {
                 text="Create Post"
               />
               {openFormPost && (
+                <>
                 <form
                   onSubmit={handleAddPost}
                   className="flex grid-cols-4 space-x-10"
@@ -147,6 +141,8 @@ export default function Home() {
                   />
                   <Button type="submit" text="Submit" />
                 </form>
+                <Button text="Close" onClick={() => setOpenFormPost((prev) => !prev)}/>
+                </>
               )}
               <div className="text-center py-8">
                 <p>Welcome {session?.user?.name}</p>
