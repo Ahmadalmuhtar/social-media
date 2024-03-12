@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -13,8 +13,12 @@ import {
 import { Post, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Button from "./components/Button";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
+  const router = useRouter();
+
   const [openAddForm, setOpenAddForm] = useState(false);
   const [users, setUsers] = useState<User[]>();
   const [posts, setPosts] = useState<Post[]>();
@@ -97,7 +101,10 @@ export default function Home() {
               type="email"
             />
           </label>
-          <Button onClick={() => setOpenAddForm((prev) => !prev)} text="Close" />
+          <Button
+            onClick={() => setOpenAddForm((prev) => !prev)}
+            text="Close"
+          />
         </form>
       ) : (
         <div className="flex flex-col space-y-4">
@@ -110,7 +117,10 @@ export default function Home() {
           {status === "loading" && "Loading..."}
           {session ? (
             <div className="grid-cols-4">
-            <Button text="Logout" href="/api/auth/signout" />
+              <Button
+                onClick={() => router.push("/api/auth/signout")}
+                text="Logout"
+              />
               <Button
                 onClick={() => setOpenFormPost((prev) => !prev)}
                 text="Create Post"
@@ -153,7 +163,12 @@ export default function Home() {
                 <p>Here you can find your Posts</p>
               </div>
               {status === "authenticated" && (
-                <Button text="Posts" href="/posts" />
+                <Button
+                  text="Posts"
+                  onClick={() => {
+                    router.push("/posts");
+                  }}
+                />
               )}
             </div>
           ) : (
