@@ -32,7 +32,6 @@ export default function Home() {
     published: false,
 
   });
-  const { data: session, status } = useSession();
 
   const getAllUsers = async () => {
     const allUsers = await getUsers();
@@ -62,10 +61,6 @@ export default function Home() {
     setStateChanged((prev) => !prev);
   };
 
-
-  const handleDelete = async (id: number) => {
-    await deleteUserById(id);
-    setStateChanged((prev) => !prev);
 
   const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
