@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CreatePostPayload,
   CreateUserPayload,
@@ -12,13 +12,14 @@ import {
 } from "./server/queries";
 import { Post, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import Button from "./components/Button";
 
 export default function Home() {
   const [openAddForm, setOpenAddForm] = useState(false);
   const [users, setUsers] = useState<User[]>();
   const [posts, setPosts] = useState<Post[]>();
   const [stateChanged, setStateChanged] = useState(false);
-  const [openFormPost, setOpenFormPost] = useState(true);
+  const [openFormPost, setOpenFormPost] = useState(false);
   const [userData, setUserData] = useState<CreateUserPayload>({
     name: "",
     email: "",
@@ -68,15 +69,12 @@ export default function Home() {
     setPostData({ title: "", content: "", published: false });
     setOpenFormPost(false);
   };
-  console.log(status);
 
   return (
     <div className="flex py-24 justify-center">
       {openAddForm ? (
         <form onSubmit={handleAddUser} className="flex grid-cols-2 space-x-10">
-          <button className="border border-spacing-3" type="submit">
-            Add user
-          </button>
+          <Button type="submit" onClick={() => handleAddUser} text="Add user" />
           <label>
             User name:
             <input
@@ -99,38 +97,24 @@ export default function Home() {
               type="email"
             />
           </label>
-          <button
-            className="border border-spacing-3"
-            onClick={() => setOpenAddForm((prev) => !prev)}
-          >
-            Close
-          </button>
+          <Button onClick={() => setOpenAddForm((prev) => !prev)} text="Close" />
         </form>
       ) : (
         <div className="flex flex-col space-y-4">
           {!session && (
-            <button
-              className="border px-3 py-2 bg-black text-white rounded-md"
+            <Button
               onClick={() => setOpenAddForm((prev) => !prev)}
-            >
-              Add User
-            </button>
+              text="Add User"
+            />
           )}
           {status === "loading" && "Loading..."}
           {session ? (
-            <>
-              <a
-                href="/api/auth/signout"
-                className="border px-3 py-2 bg-black text-white rounded-md text-center"
-              >
-                Logout
-              </a>
-              <button
+            <div className="grid-cols-4">
+            <Button text="Logout" href="/api/auth/signout" />
+              <Button
                 onClick={() => setOpenFormPost((prev) => !prev)}
-                className="border px-3 py-2 bg-black text-white rounded-md text-center"
-              >
-                Create Post
-              </button>
+                text="Create Post"
+              />
               {openFormPost && (
                 <form
                   onSubmit={handleAddPost}
@@ -161,12 +145,7 @@ export default function Home() {
                     placeholder="Add Content"
                     className="text-center col-span-4 border-black"
                   />
-                  <button
-                    className="border px-3 py-2 bg-black text-white rounded-md text-center"
-                    type="submit"
-                  >
-                    Submit
-                  </button>
+                  <Button type="submit" text="Submit" />
                 </form>
               )}
               <div className="text-center py-8">
@@ -174,13 +153,9 @@ export default function Home() {
                 <p>Here you can find your Posts</p>
               </div>
               {status === "authenticated" && (
-                <ul>
-                  {posts?.map((post) => (
-                    <li key={post.id}>{post.title}</li>
-                  ))}
-                </ul>
+                <Button text="Posts" href="/posts" />
               )}
-            </>
+            </div>
           ) : (
             <a
               href="/api/auth/signin"
