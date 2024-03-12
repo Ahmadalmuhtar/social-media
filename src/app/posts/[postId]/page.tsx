@@ -1,12 +1,19 @@
-'use client'
+"use client";
 
 import Button from "@/app/components/Button";
-import { CreatePostPayload, deletePostById, getPostById } from "@/app/server/queries"
-import { useEffect, useState } from "react"
+import {
+  CreatePostPayload,
+  deletePostById,
+  getPostById,
+} from "@/app/server/queries";
+import { useEffect, useState } from "react";
 
-export default function postDetails({ params }: {params:{ postId: string }}){
-
-  const [post, setPost] = useState<CreatePostPayload | null>(null)
+export default function postDetails({
+  params,
+}: {
+  params: { postId: string };
+}) {
+  const [post, setPost] = useState<CreatePostPayload | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -18,21 +25,24 @@ export default function postDetails({ params }: {params:{ postId: string }}){
         console.error(error);
       }
     };
-  
+
     fetchPost();
   }, [params.postId]);
 
   const handleDeletePost = async (id: number) => {
     await deletePostById(id);
-  }
+  };
 
-  return(
+  return (
     <div className="text-center py-24">
-  <p>{post?.title}</p>
-  <p>{post?.content}</p>
-  <div className="py-6">
-  <Button href="/posts" text="Delete Post" onClick={() => handleDeletePost(parseInt(params.postId))}/>
-  </div>
+      <p>{post?.title}</p>
+      <p>{post?.content}</p>
+      <div className="py-6">
+        <Button
+          text="Delete Post"
+          onClick={() => handleDeletePost(parseInt(params.postId))}
+        />
+      </div>
     </div>
-    )
+  );
 }
