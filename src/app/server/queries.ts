@@ -16,7 +16,7 @@ export async function createPost(payload: CreatePostPayload) {
     const post = await prisma.post.create({
       data: {
         title: payload.title,
-        content: payload.title,
+        content: payload.content,
         published: payload.published,
       },
     });
