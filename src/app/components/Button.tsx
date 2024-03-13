@@ -1,24 +1,34 @@
 import React from "react";
+import { cn } from "../utils";
 
 interface ButtonProps {
   onClick?: () => void;
   text: string;
-  type?: 'button' | 'submit' | 'reset'
-  href?: string
+  type?: "button" | "submit" | "reset";
+  variant?: "default" | "danger";
 }
 
-const Button: React.FC<ButtonProps> = ({ onClick, text, type, href }) => {
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  text,
+  type,
+  variant = "default",
+}) => {
   return (
-    <a href={href}>
     <button
-    
-    type={type}
-    className="border px-3 py-2 bg-black text-white rounded-md text-center"
+      type={type}
+      className={cn(
+        "border px-3 py-2 rounded-md text-center",
+        variant === "default"
+          ? "bg-black text-white"
+          : variant === "danger"
+          ? "bg-red-700 text-white"
+          : ""
+      )}
       onClick={onClick}
     >
       {text}
     </button>
-    </a>
   );
 };
 
