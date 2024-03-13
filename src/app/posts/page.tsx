@@ -8,9 +8,6 @@ const Posts = async () => {
 
   return (
     <>
-      <Link href="/" passHref>
-        <Button text="Home" />
-      </Link>
       <ul className="text-center py-14">
         {posts?.map((post) => (
           <Link href={`/posts/${post.id}`} passHref>
