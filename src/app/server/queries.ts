@@ -53,12 +53,13 @@ export async function getPosts() {
 }
 
 export async function getUserById(userId: number) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-  return user;
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    return user;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw new Error("Failed fetching the user with ID");
+  }
 }
 
 export async function getPostById(postId: number): Promise<Post | null> {
