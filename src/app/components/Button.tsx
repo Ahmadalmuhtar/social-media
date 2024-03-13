@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
       className={cn(
         "border px-3 py-2 rounded-md text-center",
         variant === "default"
-          ? "bg-black text-white col-span-2"
+          ? "bg-indigo-600 text-white col-span-2"
           : variant === "danger"
           ? "bg-red-700 text-white col-span-2"
           : ""
