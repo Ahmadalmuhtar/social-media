@@ -1,12 +1,9 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import {
-  CreatePostPayload,
-  deletePostById,
-  getPostById,
-} from "@/app/server/queries";
+import { deletePostById, getPostById } from "@/app/server/queries";
 import { Post } from "@prisma/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -38,18 +35,23 @@ export default function postDetails({
   };
 
   return (
-    <div className="text-center py-24">
-      <p>{post?.title}</p>
-      <p>{post?.content}</p>
-      {post?.id && (
-        <div className="py-6">
-          <Button
-            variant="danger"
-            onClick={() => handleDeletePost(post?.id)}
-            text="Delete Post"
-          />
-        </div>
-      )}
-    </div>
+    <>
+      <Link href="/" passHref>
+        <Button text="Home" />
+      </Link>
+      <div className="text-center py-24">
+        <p>{post?.title}</p>
+        <p>{post?.content}</p>
+        {post?.id && (
+          <div className="py-6">
+            <Button
+              variant="danger"
+              onClick={() => handleDeletePost(post?.id)}
+              text="Delete Post"
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 }

@@ -68,9 +68,9 @@ export default function Home() {
   };
 
   return (
-    <div className="flex py-24 justify-center">
+    <div className="grid py-24 justify-center">
       {openAddForm ? (
-        <form onSubmit={handleAddUser} className="flex grid-cols-2 space-x-10">
+        <form onSubmit={handleAddUser} className="grid grid-cols-2 space-x-10">
           <Button type="submit" onClick={() => handleAddUser} text="Add user" />
           <label>
             User name:
@@ -100,7 +100,7 @@ export default function Home() {
           />
         </form>
       ) : (
-        <div className="flex flex-col space-y-4">
+        <div className="grid grid-col space-y-4">
           {!session && (
             <Button
               onClick={() => setOpenAddForm((prev) => !prev)}
@@ -109,7 +109,7 @@ export default function Home() {
           )}
           {status === "loading" && "Loading..."}
           {session ? (
-            <div className="grid-cols-4">
+            <div className="grid-cols-2">
               <Button
                 onClick={() => router.push("/api/auth/signout")}
                 text="Logout"
@@ -120,51 +120,60 @@ export default function Home() {
               />
               {openFormPost && (
                 <>
-                <form
-                  onSubmit={handleAddPost}
-                  className="flex grid-cols-4 space-x-10"
-                >
-                  <label htmlFor="title">Title:</label>
-                  <input
-                    onChange={(e) =>
-                      setPostData((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }))
-                    }
-                    id="title"
-                    type="text"
-                    placeholder="Add Title"
-                    className="text-center col-span-4 border-black"
+                  <form
+                    onSubmit={handleAddPost}
+                    className="grid grid-cols-2 space-x-10"
+                  >
+                    <label htmlFor="title">Title:</label>
+                    <input
+                      onChange={(e) =>
+                        setPostData((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
+                      id="title"
+                      type="text"
+                      placeholder="Add Title"
+                      className="text-center col-span-2 border-black"
+                    />
+                    <label htmlFor="content">Post:</label>
+                    <input
+                      onChange={(e) =>
+                        setPostData((prev) => ({
+                          ...prev,
+                          content: e.target.value,
+                        }))
+                      }
+                      id="content"
+                      placeholder="Add Content"
+                      className="text-center col-span-2 border-black"
+                    />
+                    <Button type="submit" text="Submit" />
+                  </form>
+                  <Button
+                    text="Close"
+                    onClick={() => setOpenFormPost((prev) => !prev)}
                   />
-                  <label htmlFor="content">Post:</label>
-                  <input
-                    onChange={(e) =>
-                      setPostData((prev) => ({
-                        ...prev,
-                        content: e.target.value,
-                      }))
-                    }
-                    id="content"
-                    placeholder="Add Content"
-                    className="text-center col-span-4 border-black"
-                  />
-                  <Button type="submit" text="Submit" />
-                </form>
-                <Button text="Close" onClick={() => setOpenFormPost((prev) => !prev)}/>
                 </>
               )}
               <div className="text-center py-8">
                 <p>Welcome {session?.user?.name}</p>
-                <p>Here you can find your Posts</p>
               </div>
               {status === "authenticated" && (
-                <Button
-                  text="Posts"
-                  onClick={() => {
-                    router.push("/posts");
-                  }}
-                />
+                <div className="grid-cols-2">
+                  <Button
+                    text="Posts"
+                    onClick={() => {
+                      router.push("/posts");
+                    }}
+                  />
+                  <Button
+                    text="Users"
+                    variant="default"
+                    onClick={() => router.push("/users")}
+                  />
+                </div>
               )}
             </div>
           ) : (
@@ -175,17 +184,6 @@ export default function Home() {
               Login
             </a>
           )}
-          <ul>
-            {users?.map((user) => (
-              <li
-                key={user.id}
-                onClick={() => handleDelete(user.id)}
-                className="cursor-pointer"
-              >
-                {user.name}
-              </li>
-            ))}
-          </ul>
         </div>
       )}
     </div>
