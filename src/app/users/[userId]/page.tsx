@@ -10,9 +10,6 @@ export default async function userDetails({
   const user = await getUserById(parseInt(params.userId));
   return (
     <>
-      <Link href="/" passHref>
-        <Button text="Home" />
-      </Link>
       <div className="text-center py-24">
         <p key={user?.id}>{user?.name}</p>
       </div>

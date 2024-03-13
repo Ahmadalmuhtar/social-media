@@ -36,9 +36,6 @@ export default function postDetails({
 
   return (
     <>
-      <Link href="/" passHref>
-        <Button text="Home" />
-      </Link>
       <div className="text-center py-24">
         <p>{post?.title}</p>
         <p>{post?.content}</p>
