@@ -15,7 +15,7 @@ export const Navbar = () => {
           <Button text="Login" />
         </Link>
       ) : (
-        <Link href={"/api/auth/signin"} passHref>
+        <Link href={"/api/auth/signout"} passHref>
           <Button text="Logout" />
         </Link>
       )}

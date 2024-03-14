@@ -29,7 +29,7 @@ export default function AddPostForm() {
             id="title"
             type="text"
             placeholder="Add Title"
-            className="text-center col-span-2 border-black"
+            className="rounded-full text-center col-span-2 ring-1 m-1 ring-black"
           />
         </div>
         <div>
@@ -43,7 +43,7 @@ export default function AddPostForm() {
             }
             id="content"
             placeholder="Add Content"
-            className="text-center col-span-2 border-black"
+            className="rounded-full text-center col-span-2 ring-1 m-1 ring-black"
           />
         </div>
         <Button type="submit" text="Submit" />
