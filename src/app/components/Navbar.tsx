@@ -9,7 +9,7 @@ export const Navbar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   return (
-    <div className="flex justify-between py-2 bg-gray-50 max-w-5xl mx-auto">
+    <div className="flex justify-between py-2 bg-gray-200 max-w-5xl mx-auto">
       {!session ? (
         <Link href={"/api/auth/signin"} passHref>
           <Button text="Login" />
