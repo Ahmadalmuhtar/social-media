@@ -1,26 +1,27 @@
 "use server";
-import { Post } from "@prisma/client";
+import { Post, User } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export type CreateUserPayload = {
-  name: string;
+  username: string;
   email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
 };
 export type CreatePostPayload = {
   title: string;
   content: string | null;
-  published: boolean;
 };
 
-export async function createPost(payload: CreatePostPayload) {
+export async function createPost(
+  payload: CreatePostPayload,
+  authorEmail: string
+) {
   try {
     const post = await prisma.post.create({
-      data: {
-        title: payload.title,
-        content: payload.content,
-        published: payload.published,
-      },
+      data: { ...payload, author: { connect: { email: authorEmail } } },
     });
     revalidatePath("/posts");
     return post;
@@ -32,10 +33,7 @@ export async function createPost(payload: CreatePostPayload) {
 export async function createUser(payload: CreateUserPayload) {
   try {
     await prisma.user.create({
-      data: {
-        name: payload.name,
-        email: payload.email,
-      },
+      data: payload,
     });
   } catch (error) {
     console.error(error);

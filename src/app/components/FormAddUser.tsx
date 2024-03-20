@@ -2,18 +2,20 @@ import { useState } from "react";
 import { CreateUserPayload, createUser } from "../server/queries";
 import Button from "./Button";
 
-type FormProps = {};
-
+const userAttributes = {
+  username: "",
+  email: "",
+  password: "",
+  firstname: "",
+  lastname: "",
+};
 export default function AddUserForm() {
-  const [userData, setUserData] = useState<CreateUserPayload>({
-    name: "",
-    email: "",
-  });
+  const [userData, setUserData] = useState<CreateUserPayload>(userAttributes);
 
   const handleAddUser = async (e: React.FormEvent) => {
     e.preventDefault();
     await createUser(userData);
-    setUserData({ name: "", email: "" });
+    setUserData(userAttributes);
   };
 
   return (
