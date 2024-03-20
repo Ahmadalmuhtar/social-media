@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CreateUserPayload, createUser } from "../server/queries";
+import { createUser } from "../server/queries";
 import Button from "./Button";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
