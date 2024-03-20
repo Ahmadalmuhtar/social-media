@@ -3,7 +3,6 @@
 import Button from "@/app/components/Button";
 import { deletePostById, getPostById } from "@/app/server/queries";
 import { Post } from "@prisma/client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
