@@ -17,6 +17,9 @@ export default function Home() {
       <div className="flex justify-center py-8">
         {session && (
           <div className="flex flex-col max-w-5xl mx-auto space-y-4">
+            <Link href={"/create-user"} passHref>
+              <Button text="Create user" />
+            </Link>
             <Link href={"/create-post"} passHref>
               <Button text="Create Post" />
             </Link>
