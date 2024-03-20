@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { getUsers } from "../server/queries";
+import Button from "../components/Button";
+import { deleteUserById, getUsers } from "../server/queries";
 
 export default async function Example() {
   const users = await getUsers();
@@ -15,7 +15,7 @@ export default async function Example() {
                     scope="col"
                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                   >
-                    Name
+                    username
                   </th>
                   <th
                     scope="col"
@@ -23,16 +23,40 @@ export default async function Example() {
                   >
                     Email
                   </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    Firstname
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >
+                    Lastname
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {users.map((user) => (
                   <tr key={user.id}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                      {user.name}
+                      {user.username}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {user.email}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {user.firstname}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {user.lastname}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <Button
+                        text="Delete"
+                        // onClick={() => deleteUserById(user.id)}
+                      />
                     </td>
                   </tr>
                 ))}
