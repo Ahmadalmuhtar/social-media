@@ -1,8 +1,28 @@
+"use client";
+
+import React from "react";
 import Button from "../components/Button";
 import { deleteUserById, getUsers } from "../server/queries";
+import { User } from "@prisma/client";
 
-export default async function Example() {
-  const users = await getUsers();
+export default function Example() {
+  const [users, setUsers] = React.useState<User[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const fetchedUsers = await getUsers();
+      setUsers(fetchedUsers);
+    };
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id: number) => {
+    await deleteUserById(id);
+    // After deleting the user, fetch the updated user list
+    const updatedUsers = await getUsers();
+    setUsers(updatedUsers);
+  };
+
   return (
     <>
       <div className="px-16 mt-8 flow-root">
@@ -11,28 +31,16 @@ export default async function Example() {
             <table className="min-w-full divide-y divide-gray-600">
               <thead>
                 <tr>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
-                    username
+                  <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                    Username
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Email
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Firstname
                   </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                  >
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Lastname
                   </th>
                 </tr>
@@ -55,7 +63,7 @@ export default async function Example() {
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       <Button
                         text="Delete"
-                        // onClick={() => deleteUserById(user.id)}
+                        onClick={() => handleDelete(user.id)}
                       />
                     </td>
                   </tr>

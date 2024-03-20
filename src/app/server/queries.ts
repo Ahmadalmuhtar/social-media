@@ -76,7 +76,7 @@ export async function getPostById(postId: number): Promise<Post | null> {
 }
 
 export async function deleteUserById(userId: number) {
-  const user = await prisma.user.delete({
+  await prisma.user.delete({
     where: {
       id: userId,
     },
