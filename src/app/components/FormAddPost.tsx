@@ -1,18 +1,21 @@
 import { useState } from "react";
 import { CreatePostPayload, createPost } from "../server/queries";
 import Button from "./Button";
+import { Session } from "inspector";
+import { useSession } from "next-auth/react";
 
 export default function AddPostForm() {
+  const { data: session, status } = useSession();
+
   const [postData, setPostData] = useState<CreatePostPayload>({
     title: "",
     content: "",
-    published: false,
   });
 
   const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
-    await createPost(postData);
-    setPostData({ title: "", content: "", published: false });
+    createPost(postData, session?.user?.email!);
+    setPostData({ title: "", content: "" });
   };
   return (
     <>

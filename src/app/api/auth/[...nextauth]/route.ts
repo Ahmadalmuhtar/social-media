@@ -17,14 +17,18 @@ export const authOptions: AuthOptions = {
         },
         create: {
           id: parseInt(user.id as string),
-          name: user.name,
+          username: user.name!,
           email: user?.email as string,
+          firstname: user?.name as string,
+          lastname: user?.name as string,
+          password: user?.email as string,
         },
         update: {
-          name: user.name,
+          username: user.name!,
           email: user?.email as string,
         },
       });
+      console.log(user);
       return true;
     },
   },
