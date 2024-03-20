@@ -1,5 +1,6 @@
 import React from "react";
 import { getPosts } from "../server/queries";
+import Link from "next/link";
 
 const Posts = async () => {
   const posts = await getPosts();
@@ -11,7 +12,9 @@ const Posts = async () => {
           key={post.id}
           className="size-96 border ring-indigo-600 ring-2 grid grid-cols-1"
         >
-          <div className="flex justify-center text-2xl">{post.title}</div>
+          <Link href={`/posts/${post.id}`} passHref>
+            <div className="flex justify-center text-2xl">{post.title}</div>
+          </Link>
           <hr className="max-w-full" />
           <div className="text-left">{post.content}</div>
         </div>
