@@ -28,7 +28,7 @@ export const authOptions: AuthOptions = {
           email: user?.email as string,
         },
       });
-      console.log(user);
+      // console.log(user);
       return true;
     },
   },

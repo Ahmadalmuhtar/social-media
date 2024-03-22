@@ -76,18 +76,27 @@ export async function getPostById(postId: number): Promise<Post | null> {
 }
 
 export async function deleteUserById(userId: number) {
-  await prisma.user.delete({
-    where: {
-      id: userId,
-    },
-  });
+  try {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+    revalidatePath("/users");
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export async function deletePostById(postId: number) {
-  await prisma.post.delete({
-    where: {
-      id: postId,
-    },
-  });
-  revalidatePath("/posts");
+  try {
+    await prisma.post.delete({
+      where: {
+        id: postId,
+      },
+    });
+    revalidatePath("/posts");
+  } catch (error) {
+    console.log(error);
+  }
 }
