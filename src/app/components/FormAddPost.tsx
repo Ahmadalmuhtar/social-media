@@ -42,13 +42,10 @@ export default function AddPostForm() {
         <div>
           <label htmlFor="content">Post:</label>
           <Editor
-            apiKey="vtgfzj4ahw38c91ptuhwzgvenb4i2u268n06qxd02fyi09kz"
-            onChange={(e) =>
-              setPostData((prev) => ({
-                ...prev,
-                content: e.target.value,
-              }))
+            onEditorChange={(content) =>
+              setPostData((prev) => ({ ...prev, content }))
             }
+            apiKey="vtgfzj4ahw38c91ptuhwzgvenb4i2u268n06qxd02fyi09kz"
             id="content"
           />
         </div>

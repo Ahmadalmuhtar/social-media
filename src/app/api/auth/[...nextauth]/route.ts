@@ -22,10 +22,12 @@ export const authOptions: AuthOptions = {
           firstname: user?.name as string,
           lastname: user?.name as string,
           password: user?.email as string,
+          picture: user?.image as string,
         },
         update: {
           username: user.name!,
           email: user?.email as string,
+          picture: user?.image as string,
         },
       });
       console.log(user);

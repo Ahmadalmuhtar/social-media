@@ -14,6 +14,10 @@ export type CreatePostPayload = {
   title: string;
   content: string | null;
 };
+export type SharePostPayload = {
+  id: number;
+  isShared: boolean;
+};
 
 export async function createPost(
   payload: CreatePostPayload,
@@ -47,6 +51,18 @@ export async function getUsers() {
 
 export async function getPosts() {
   const posts = await prisma.post.findMany();
+  return posts;
+}
+
+export async function getSharedPosts() {
+  const posts = await prisma.post.findMany({
+    where: {
+      isShared: true,
+    },
+    include: {
+      author: true,
+    },
+  });
   return posts;
 }
 
@@ -87,6 +103,18 @@ export async function deletePostById(postId: number) {
   await prisma.post.delete({
     where: {
       id: postId,
+    },
+  });
+  revalidatePath("/posts");
+}
+
+export async function sharePostById(payload: SharePostPayload) {
+  await prisma.post.update({
+    where: {
+      id: payload.id,
+    },
+    data: {
+      isShared: payload.isShared,
     },
   });
   revalidatePath("/posts");
