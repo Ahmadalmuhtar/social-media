@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/app/components/Button";
-import { deletePostById, getPostById } from "@/app/server/queries";
+import { deletePostById, getPostById } from "@/app/server/post-queries/queries";
 import { Post } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ export default function postDetails({
 
   return (
     <>
-      <div className="text-center py-24">
+      <div className="py-24 text-center">
         <p>{post?.title}</p>
         <p>{post?.content}</p>
         {post?.id && (

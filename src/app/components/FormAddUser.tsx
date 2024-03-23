@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createUser } from "../server/queries";
+import { createUser } from "../server/user-queries/queries";
 import Button from "./Button";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -46,7 +46,7 @@ export default function AddUserForm() {
     <>
       <form
         onSubmit={handleSubmit(handleAddUser)}
-        className="flex flex-col space-y-6 max-w-2xl mx-auto ring-1 space-x-3 justify-center items-center rounded-lg"
+        className="mx-auto flex max-w-2xl flex-col items-center justify-center space-x-3 space-y-6 rounded-lg ring-1"
       >
         <div>
           <label htmlFor="username">User name</label>
@@ -54,12 +54,12 @@ export default function AddUserForm() {
             {...register("username")}
             id="userName"
             placeholder="Enter a new username"
-            className="border m-2"
+            className="m-2 border"
             type="text"
           />
         </div>
         {errors.username && (
-          <div className="text-red-400 opacity-95 text-sm">
+          <div className="text-sm text-red-400 opacity-95">
             {errors.username.message}
           </div>
         )}
@@ -69,12 +69,12 @@ export default function AddUserForm() {
             {...register("email")}
             id="email"
             placeholder="Enter your Email"
-            className="border m-2"
+            className="m-2 border"
             type="text"
           />
         </div>
         {errors.email && (
-          <div className="text-red-400 opacity-95 text-sm">
+          <div className="text-sm text-red-400 opacity-95">
             {errors.email.message}
           </div>
         )}
@@ -84,12 +84,12 @@ export default function AddUserForm() {
             {...register("password")}
             id="password"
             placeholder="Enter your password"
-            className="border m-2"
+            className="m-2 border"
             type="password"
           />
         </div>
         {errors.password && (
-          <div className="text-red-400 opacity-95 text-sm">
+          <div className="text-sm text-red-400 opacity-95">
             {errors.password.message}
           </div>
         )}
@@ -99,7 +99,7 @@ export default function AddUserForm() {
             {...register("firstname")}
             id="firstname"
             placeholder="Enter your firstname"
-            className="border m-2"
+            className="m-2 border"
             type="text"
           />
         </div>
@@ -109,7 +109,7 @@ export default function AddUserForm() {
             {...register("lastname")}
             id="lastname"
             placeholder="Enter your lastname"
-            className="border m-2"
+            className="m-2 border"
             type="text"
           />
         </div>

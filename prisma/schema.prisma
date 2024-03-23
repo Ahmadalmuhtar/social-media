@@ -32,10 +32,11 @@ model Post {
 }
 
 model Like {
-  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int
+
+  @@id(name: "likeId", [postId, userEmail])
 }

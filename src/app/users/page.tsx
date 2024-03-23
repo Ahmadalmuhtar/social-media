@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "../components/Button";
-import { deleteUserById, getUsers } from "../server/queries";
+import { deleteUserById, getUsers } from "../server/user-queries/queries";
 import { User } from "@prisma/client";
 
 export default function Example() {
@@ -25,7 +25,7 @@ export default function Example() {
 
   return (
     <>
-      <div className="px-16 mt-8 flow-root">
+      <div className="mt-8 flow-root px-16">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <table className="min-w-full divide-y divide-gray-600">

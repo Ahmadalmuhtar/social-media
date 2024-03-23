@@ -1,6 +1,6 @@
 import React from "react";
-import { getSharedPosts } from "../server/queries";
 import { SharedPost } from "../components/SharedPosts";
+import { getSharedPosts } from "../server/post-queries/queries";
 
 export default async function Feeds() {
   const posts = await getSharedPosts();
@@ -13,7 +13,7 @@ export default async function Feeds() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-8">No Posts to show</div>
+        <div className="py-8 text-center">No Posts to show</div>
       )}
     </div>
   );

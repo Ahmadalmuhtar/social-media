@@ -3,9 +3,8 @@
 import Link from "next/link";
 import Button from "./Button";
 import { Post } from "@prisma/client";
-import { useState } from "react";
-import { SharePostPayload, sharePostById } from "../server/queries";
-import { isSharedArrayBuffer } from "util/types";
+import { SharePostPayload } from "../server/post-queries/types";
+import { sharePostById } from "../server/post-queries/queries";
 
 type PostCardProps = {
   post: Post;
@@ -17,7 +16,7 @@ export function PostCard({ post }: PostCardProps) {
   };
 
   return (
-    <div className="size-96 border ring-indigo-600 ring-2 flex flex-col justify-around">
+    <div className="flex size-96 flex-col justify-around border ring-2 ring-indigo-600">
       <div className="flex justify-center text-2xl">{post.title}</div>
       <hr className="max-w-full" />
       <div
