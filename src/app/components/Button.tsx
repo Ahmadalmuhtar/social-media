@@ -8,24 +8,27 @@ interface ButtonProps {
   text: string;
   type?: "button" | "submit" | "reset";
   variant?: "default" | "danger";
+  className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
   text,
   type,
+  className,
   variant = "default",
 }) => {
   return (
     <button
       type={type}
       className={cn(
-        "border px-3 py-2 rounded-full text-center",
+        "rounded-full border px-3 py-2 text-center",
         variant === "default"
-          ? "bg-indigo-600 text-white col-span-2"
+          ? "col-span-2 bg-indigo-600 text-white"
           : variant === "danger"
-          ? "bg-red-700 text-white col-span-2"
-          : ""
+            ? "col-span-2 bg-red-700 text-white"
+            : "",
+        className ?? "",
       )}
       onClick={onClick}
     >

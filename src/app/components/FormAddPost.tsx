@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { CreatePostPayload, createPost } from "../server/queries";
 import Button from "./Button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Editor } from "@tinymce/tinymce-react";
+import { CreatePostPayload } from "../server/post-queries/types";
+import { createPost } from "../server/post-queries/queries";
 
 export default function AddPostForm() {
   const { data: session } = useSession();
@@ -36,7 +37,7 @@ export default function AddPostForm() {
             id="title"
             type="text"
             placeholder="Add Title"
-            className="text-center col-span-2 ring-1 m-1 ring-black"
+            className="col-span-2 m-1 text-center ring-1 ring-black"
           />
         </div>
         <div>

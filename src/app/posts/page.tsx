@@ -1,15 +1,15 @@
 import React from "react";
-import { getPosts } from "../server/queries";
 import Link from "next/link";
 import Button from "../components/Button";
 import { PostCard } from "../components/PostCard";
+import { getPosts } from "../server/post-queries/queries";
 
 const Posts = async () => {
   const posts = await getPosts();
 
   return (
     <div className="flex justify-center">
-      <div className="grid h-[100vh] overflow-scroll grid-cols-1 gap-20">
+      <div className="grid h-[100vh] grid-cols-1 gap-20">
         {posts.length > 0 ? (
           posts.map((post) => (
             <>
@@ -17,7 +17,7 @@ const Posts = async () => {
             </>
           ))
         ) : (
-          <div className="py-10 flex flex-col space-y-11 justify-center items-center">
+          <div className="flex flex-col items-center justify-center space-y-11 py-10">
             <p>Currently you have no Posts to show!</p>
             <Link href={"/create-post"}>
               <Button text="Create Post" />
