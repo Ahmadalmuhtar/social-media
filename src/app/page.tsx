@@ -34,6 +34,11 @@ export default function Home() {
               variant="default"
               onClick={() => router.push("/users")}
             />
+            <Button
+              text="Feeds"
+              variant="default"
+              onClick={() => router.push("/feeds")}
+            />
           </div>
         )}
       </div>
