@@ -16,21 +16,15 @@ export const Navbar = () => {
       className="mx-auto flex max-w-5xl justify-between py-2"
     >
       {!session ? (
-        <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-          <Link href={"/api/auth/signin"} passHref>
-            <Button text="Login" />
-          </Link>
-        </motion.div>
+        <Link href={"/api/auth/signin"} passHref>
+          <Button text="Login" />
+        </Link>
       ) : (
-        <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-          <Link href={"/api/auth/signout"} passHref>
-            <Button text="Logout" />
-          </Link>
-        </motion.div>
+        <Link href={"/api/auth/signout"} passHref>
+          <Button text="Logout" />
+        </Link>
       )}
-      <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-        <Button onClick={() => router.back()} text="Go Back" />
-      </motion.div>
+      <Button onClick={() => router.back()} text="Go Back" />
     </motion.div>
   );
 };

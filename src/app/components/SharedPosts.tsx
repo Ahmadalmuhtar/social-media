@@ -3,9 +3,11 @@
 import { Like, Post, User, Comment } from "@prisma/client";
 import Button from "./Button";
 import { useSession } from "next-auth/react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { createComment } from "../server/comment-queries/queries";
 import { createLike, dislikePostPerId } from "../server/like-queries/queries";
+import { HeartIcon as HeartIconOutlined } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/16/solid";
 
 export type SharedPostProps = {
   post: Post & {
@@ -78,7 +80,7 @@ export function SharedPost({ post }: SharedPostProps) {
           >
             <label htmlFor="comment">Comment:</label>
             <textarea
-              className="h-12 min-h-12 w-80 ring-1"
+              className="h-12 min-h-12 w-80 text-black ring-1"
               name="comment"
               id="comment"
               placeholder="Type a comment..."
@@ -88,13 +90,23 @@ export function SharedPost({ post }: SharedPostProps) {
             <Button text="Comment" type="submit" />
           </form>
         </div>
-        <div>
-          <Button
-            text={hasUserLiked ? "Dislike" : "Like"}
-            className="px-4 py-3"
-            onClick={() => handleLike()}
-          />
-          {numberOfLikes}
+        <div className="flex items-center space-x-2">
+          <div>
+            <HeartIconOutlined className="size-10 text-red-500" />
+            <HeartIconSolid className="size-20 text-red-500" />
+            <Button
+              text={
+                hasUserLiked ? (
+                  <HeartIconSolid className=" text-red-500" />
+                ) : (
+                  <HeartIconOutlined className=" text-red-500" />
+                )
+              }
+              className="border-0 bg-inherit px-4 py-3 ring-0"
+              onClick={() => handleLike()}
+            />
+          </div>
+          <div>{numberOfLikes}</div>
         </div>
         <div className="flex flex-col">
           {comments?.map((comment, index) => (
