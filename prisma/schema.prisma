@@ -18,7 +18,7 @@ model User {
   createdAt DateTime  @default(now())
   posts     Post[]
   Like      Like[]
-  Comment   Comment[]
+  comments  Comment[]
 }
 
 model Post {
@@ -30,7 +30,7 @@ model Post {
   author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
   likes     Like[]
-  Comment   Comment[]
+  comments  Comment[]
 }
 
 model Like {
@@ -44,12 +44,11 @@ model Like {
 }
 
 model Comment {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   content   String
   user      User     @relation(fields: [userEmail], references: [email])
   userEmail String
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int
-
-  @@id(name: "commentId", [postId, userEmail])
 }

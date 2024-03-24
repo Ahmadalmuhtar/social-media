@@ -1,5 +1,5 @@
 import React from "react";
-import { SharedPost } from "../components/SharedPosts";
+import { SharedPost, SharedPostProps } from "../components/SharedPosts";
 import { getSharedPosts } from "../server/post-queries/queries";
 
 export default async function Feeds() {
