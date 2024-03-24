@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/app/lib/prisma";
-import { Post } from "@prisma/client";
+import { Post, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { CreatePostPayload, SharePostPayload } from "./types";
 
@@ -33,6 +33,8 @@ export async function getSharedPosts() {
       },
       include: {
         author: true,
+        comments: true,
+        likes: true,
       },
     });
     return posts;
