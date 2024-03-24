@@ -16,6 +16,7 @@ export function SharedPost({ post }: { post: Post & { author: User } }) {
   const [likes, setLikes] = useState<number>();
   const { data: session } = useSession();
   const [isLiked, setIsLiked] = useState<boolean>();
+  const [buttonText, setButtonText] = useState("");
 
   useEffect(() => {
     const getLikes = async () => {
@@ -23,6 +24,8 @@ export function SharedPost({ post }: { post: Post & { author: User } }) {
       setLikes(numberOfLikes);
     };
     getLikes().catch((error) => console.log(error));
+
+    setButtonText(isLiked ? "Dislike" : "Like");
   }, [isLiked, likes]);
 
   const handleLike = async (payload: CreateLikePayload) => {
@@ -32,17 +35,7 @@ export function SharedPost({ post }: { post: Post & { author: User } }) {
     } else {
       await dislikePostPerId(payload);
     }
-  };
-
-  const buttonText = () => {
-    switch (isLiked) {
-      case true:
-        return "Dislike";
-      case false:
-        return "Like";
-      default:
-        return "";
-    }
+    console.log(isLiked);
   };
   return (
     <>
@@ -57,7 +50,7 @@ export function SharedPost({ post }: { post: Post & { author: User } }) {
         />
         <div>
           <Button
-            text={buttonText()}
+            text={buttonText}
             className="px-4 py-3"
             onClick={() =>
               handleLike({
