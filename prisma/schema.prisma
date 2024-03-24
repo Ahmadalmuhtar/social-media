@@ -8,27 +8,29 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
   firstname String
   lastname  String
-  picture   String   @default("")
-  email     String   @unique
+  picture   String    @default("")
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   posts     Post[]
   Like      Like[]
+  Comment   Comment[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   title     String
   content   String?
-  isShared  Boolean  @default(false)
-  createdAt DateTime @default(now())
-  author    User     @relation(fields: [authorId], references: [id])
+  isShared  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  Int
   likes     Like[]
+  Comment   Comment[]
 }
 
 model Like {
@@ -39,4 +41,15 @@ model Like {
   postId    Int
 
   @@id(name: "likeId", [postId, userEmail])
+}
+
+model Comment {
+  createdAt DateTime @default(now())
+  content   String
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+
+  @@id(name: "commentId", [postId, userEmail])
 }

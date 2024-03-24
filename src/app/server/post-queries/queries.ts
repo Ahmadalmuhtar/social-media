@@ -26,15 +26,20 @@ export async function getPosts() {
 }
 
 export async function getSharedPosts() {
-  const posts = await prisma.post.findMany({
-    where: {
-      isShared: true,
-    },
-    include: {
-      author: true,
-    },
-  });
-  return posts;
+  try {
+    const posts = await prisma.post.findMany({
+      where: {
+        isShared: true,
+      },
+      include: {
+        author: true,
+      },
+    });
+    return posts;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error getting posts");
+  }
 }
 
 export async function getPostById(postId: number): Promise<Post | null> {
