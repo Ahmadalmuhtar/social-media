@@ -65,7 +65,7 @@ export function SharedPost({ post }: SharedPostProps) {
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center space-y-3 border">
         <div>{post.title}</div>
         <div className="flex items-center space-x-4">
-          <img className="size-12 rounded-full" src={post.author?.picture} />
+          <img className="size-12 rounded-xl" src={post.author?.picture} />
           {post.author?.firstname}
         </div>
         <div

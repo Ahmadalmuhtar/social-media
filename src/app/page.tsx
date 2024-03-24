@@ -16,13 +16,17 @@ export default function Home() {
     <>
       <div className="flex justify-center py-8">
         {session && (
-          <div className="flex flex-col max-w-5xl mx-auto space-y-4">
-            <Link href={"/create-user"} passHref>
-              <Button text="Create user" />
-            </Link>
-            <Link href={"/create-post"} passHref>
-              <Button text="Create Post" />
-            </Link>
+          <div className=" grid max-w-5xl grid-cols-2 gap-3 gap-x-3">
+            <div>
+              <Link href={"/create-user"} passHref>
+                <Button text="Create user" />
+              </Link>
+            </div>
+            <div>
+              <Link href={"/create-post"} passHref>
+                <Button text="Create Post" />
+              </Link>
+            </div>
             <Button
               text="Posts"
               onClick={() => {

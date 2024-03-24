@@ -37,7 +37,9 @@ export default function postDetails({
     <>
       <div className="py-24 text-center">
         <p>{post?.title}</p>
-        <p>{post?.content}</p>
+        <p
+          dangerouslySetInnerHTML={{ __html: post?.content as TrustedHTML }}
+        ></p>
         {post?.id && (
           <div className="py-6">
             <Button
