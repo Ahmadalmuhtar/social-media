@@ -18,7 +18,6 @@ export default function Example() {
 
   const handleDelete = async (id: number) => {
     await deleteUserById(id);
-    // After deleting the user, fetch the updated user list
     const updatedUsers = await getUsers();
     setUsers(updatedUsers);
   };
@@ -31,16 +30,16 @@ export default function Example() {
             <table className="min-w-full divide-y divide-gray-600">
               <thead>
                 <tr>
-                  <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                  <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-0">
                     Username
                   </th>
-                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold ">
                     Email
                   </th>
-                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold ">
                     Firstname
                   </th>
-                  <th className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-3 py-3.5 text-left text-sm font-semibold ">
                     Lastname
                   </th>
                 </tr>
@@ -48,20 +47,21 @@ export default function Example() {
               <tbody className="divide-y divide-gray-200">
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium  sm:pl-0">
                       {user.username}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-3 py-4 text-sm ">
                       {user.email}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-3 py-4 text-sm ">
                       {user.firstname}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-3 py-4 text-sm ">
                       {user.lastname}
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <td className="whitespace-nowrap px-3 py-4 text-sm ">
                       <Button
+                        variant="danger"
                         text="Delete"
                         onClick={() => handleDelete(user.id)}
                       />

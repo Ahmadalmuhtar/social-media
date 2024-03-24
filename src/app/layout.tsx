@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <SessionProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className="bg-gradient-to-r from-cyan-700 via-indigo-600 to-slate-600 text-white">
           <Navbar />
           {children}
         </body>
