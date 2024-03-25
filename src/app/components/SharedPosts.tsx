@@ -8,6 +8,7 @@ import { createComment } from "../server/comment-queries/queries";
 import { createLike, dislikePostPerId } from "../server/like-queries/queries";
 import { HeartIcon as HeartIconOutlined } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/16/solid";
+import { motion } from "framer-motion";
 
 export type SharedPostProps = {
   post: Post & {
@@ -91,21 +92,19 @@ export function SharedPost({ post }: SharedPostProps) {
           </form>
         </div>
         <div className="flex items-center space-x-2">
-          <div>
-            <HeartIconOutlined className="size-10 text-red-500" />
-            <HeartIconSolid className="size-20 text-red-500" />
-            <Button
-              text={
-                hasUserLiked ? (
-                  <HeartIconSolid className=" text-red-500" />
-                ) : (
-                  <HeartIconOutlined className=" text-red-500" />
-                )
-              }
-              className="border-0 bg-inherit px-4 py-3 ring-0"
-              onClick={() => handleLike()}
-            />
-          </div>
+          <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
+            {hasUserLiked ? (
+              <HeartIconSolid
+                onClick={() => handleLike()}
+                className="size-10 text-red-500"
+              />
+            ) : (
+              <HeartIconOutlined
+                onClick={() => handleLike()}
+                className="size-10 text-red-500"
+              />
+            )}
+          </motion.div>
           <div>{numberOfLikes}</div>
         </div>
         <div className="flex flex-col">
