@@ -20,7 +20,6 @@ export default function AddPostForm() {
     createPost(postData, session?.user?.email!);
     setPostData({ title: "", content: "" });
     router.push("/posts");
-    console.log(postData);
   };
   return (
     <>
@@ -37,7 +36,7 @@ export default function AddPostForm() {
             id="title"
             type="text"
             placeholder="Add Title"
-            className="col-span-2 m-1 text-center ring-1 ring-black"
+            className="col-span-2 m-1 text-center text-black ring-1 ring-black"
           />
         </div>
         <div>
