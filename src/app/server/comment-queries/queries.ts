@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/app/lib/prisma";
+import prisma from "@/app/lib/prisma";
 
 export const createComment = async (payload: CreateCommentPayload) => {
   try {

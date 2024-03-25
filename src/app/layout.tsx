@@ -10,14 +10,16 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const router = useRouter();
   return (
     <SessionProvider>
       <html lang="en">
-        <body className="bg-gradient-to-r from-cyan-700 via-indigo-600 to-slate-600 text-white">
+        <body
+          className={`${inter.className} bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 text-black`}
+        >
           <Navbar />
           {children}
         </body>

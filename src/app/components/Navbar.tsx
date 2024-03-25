@@ -21,10 +21,10 @@ export const Navbar = () => {
         </Link>
       ) : (
         <Link href={"/api/auth/signout"} passHref>
-          <Button text="Logout" />
+          <Button text="Logout" variant="ghost" />
         </Link>
       )}
-      <Button onClick={() => router.back()} text="Go Back" />
+      <Button variant="ghost" onClick={() => router.back()} text="Go Back" />
     </motion.div>
   );
 };

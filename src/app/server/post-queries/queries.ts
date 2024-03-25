@@ -1,9 +1,9 @@
 "use server";
 
-import { prisma } from "@/app/lib/prisma";
 import { Post, Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { CreatePostPayload, SharePostPayload } from "./types";
+import prisma from "@/app/lib/prisma";
 
 export async function createPost(
   payload: CreatePostPayload,
@@ -21,7 +21,17 @@ export async function createPost(
 }
 
 export async function getPosts() {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    include: {
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+      likes: true,
+      author: true,
+    },
+  });
   return posts;
 }
 

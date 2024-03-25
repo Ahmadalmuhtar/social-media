@@ -1,5 +1,5 @@
 "use server";
-import { prisma } from "../../lib/prisma";
+import prisma from "@/app/lib/prisma";
 import { CreateUserPayload } from "./types";
 export async function createUser(payload: CreateUserPayload) {
   try {
