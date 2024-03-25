@@ -16,14 +16,14 @@ export function PostCard({ post }: PostCardProps) {
   };
 
   return (
-    <div className="flex size-96 flex-col justify-around border ring-2 ring-indigo-600">
+    <div className="flex size-96 flex-col justify-around ring-2 ring-orange-700">
       <div className="flex justify-center text-2xl">{post.title}</div>
-      <hr className="max-w-full" />
+      <hr className="max-w-fulltext-orange-700 mx-auto w-48" />
       <div
         dangerouslySetInnerHTML={{
           __html: post.content as TrustedHTML,
         }}
-        className="text-left"
+        className="text-center"
       />
       <div className="flex justify-around">
         <Link href={`/posts/${post.id}`} passHref>

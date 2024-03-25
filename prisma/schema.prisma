@@ -27,7 +27,7 @@ model Post {
   content   String?
   isShared  Boolean   @default(false)
   createdAt DateTime  @default(now())
-  author    User      @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
   likes     Like[]
   comments  Comment[]
@@ -37,7 +37,7 @@ model Like {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userEmail], references: [email])
   userEmail String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
 
   @@id(name: "likeId", [postId, userEmail])
@@ -49,6 +49,6 @@ model Comment {
   content   String
   user      User     @relation(fields: [userEmail], references: [email])
   userEmail String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
 }

@@ -35,7 +35,7 @@ export default function postDetails({
 
   return (
     <>
-      <div className="py-24 text-center">
+      <div className="mx-auto max-w-md py-24 text-center">
         <p>{post?.title}</p>
         <p
           dangerouslySetInnerHTML={{ __html: post?.content as TrustedHTML }}
@@ -43,6 +43,7 @@ export default function postDetails({
         {post?.id && (
           <div className="py-6">
             <Button
+              className="max-w-fit"
               variant="danger"
               onClick={() => handleDeletePost(post?.id)}
               text="Delete Post"
