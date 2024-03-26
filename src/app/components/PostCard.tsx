@@ -11,14 +11,20 @@ import {
   ShareIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { createComment } from "../server/comment-queries/queries";
+import {
+  createComment,
+  deleteCommentById,
+} from "../server/comment-queries/queries";
 import { useSession } from "next-auth/react";
+import { createLike, dislikePostPerId } from "../server/like-queries/queries";
+import { HandThumbDownIcon } from "@heroicons/react/24/outline";
 
 type PostCardProps = {
   post: Post & {
     author?: User;
+    // comment?: Comment;
     comments?: Array<Comment & { user: User }>;
-    likes?: Like[];
+    likes?: Array<Like & { user: User }>;
   };
 };
 
@@ -27,6 +33,10 @@ export function PostCard({ post }: PostCardProps) {
   const [newComment, setNewComment] = useState("");
 
   const { data: session } = useSession();
+
+  const hasUserLiked = !!post.likes?.find(
+    (item) => item.userEmail === session?.user?.email,
+  );
 
   const handleShare = async (payload: SharePostPayload) => {
     await sharePostById(payload);
@@ -40,6 +50,35 @@ export function PostCard({ post }: PostCardProps) {
       userEmail: session?.user?.email!,
     });
     setNewComment("");
+  };
+
+  const handleLike = async () => {
+    try {
+      if (!hasUserLiked)
+        await createLike({
+          postId: post.id,
+          userEmail: session?.user?.email!,
+        });
+      else {
+        await dislikePostPerId({
+          postId: post.id,
+          userEmail: session?.user?.email!,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await deleteCommentById({
+        commentId: commentId,
+        userEmail: session?.user?.email!,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -77,18 +116,37 @@ export function PostCard({ post }: PostCardProps) {
           </p>
         </div>
         <div className="grid grid-cols-3 rounded-sm border-b border-t border-gray-300">
-          <button className="flex justify-center space-x-1 py-2 text-gray-900 hover:bg-gray-200 hover:opacity-75">
-            <HandThumbUpIcon className="size-6 " />
-            <p>Like</p>
-          </button>
+          {!hasUserLiked ? (
+            <button
+              onClick={handleLike}
+              className="flex justify-center space-x-1 py-2 text-gray-900 hover:rounded-md hover:bg-gray-200 hover:opacity-75 active:scale-95"
+            >
+              <HandThumbUpIcon className="size-6 " />
+              <p>Like</p>
+            </button>
+          ) : (
+            <button
+              onClick={handleLike}
+              className="flex justify-center space-x-1 py-2 text-gray-900 hover:rounded-md hover:bg-gray-200 hover:opacity-75 active:scale-95 "
+            >
+              <HandThumbDownIcon className="size-6 " />
+              <p>Dislike</p>
+            </button>
+          )}
+
           <button
             onClick={() => setShowComments((prev) => !prev)}
-            className="flex justify-center space-x-1 py-2 text-gray-900 hover:bg-gray-200 hover:opacity-75"
+            className="flex justify-center space-x-1 py-2 text-gray-900 hover:rounded-md hover:bg-gray-200 hover:opacity-75 active:scale-95"
           >
             <ChatBubbleOvalLeftEllipsisIcon className="size-6 " />
             <p>Comments</p>
           </button>
-          <button className="flex justify-center space-x-1 py-2 text-gray-900 hover:bg-gray-200 hover:opacity-75">
+          <button
+            onClick={() =>
+              handleShare({ id: post.id, isShared: !post.isShared })
+            }
+            className="flex justify-center space-x-1 py-2 text-gray-900 hover:rounded-md hover:bg-gray-200 hover:opacity-75 active:scale-95"
+          >
             <ShareIcon className="size-6 " />
             <p>Share</p>
           </button>
@@ -101,15 +159,26 @@ export function PostCard({ post }: PostCardProps) {
                   className="size-8 rounded-full"
                   src={comment.user.picture}
                 />
-                <div className="flex size-fit flex-col rounded-lg bg-gray-300 p-2">
+                <div className="flex size-fit flex-col rounded-lg bg-gray-200 p-2">
                   <p className="text-sm font-semibold">
                     {comment.user?.firstname}
                   </p>
                   <p key={comment?.id!}>{comment?.content}</p>
+                  <button>
+                    <p
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className="text-right text-xs text-gray-400"
+                    >
+                      Delete
+                    </p>
+                  </button>
                 </div>
               </div>
             ))}
-            <form onSubmit={handleAddComment}>
+            <form
+              className="flex justify-center space-x-2 pl-10"
+              onSubmit={handleAddComment}
+            >
               <textarea
                 className="min-h-12"
                 placeholder="Add your comment..."
