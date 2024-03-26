@@ -51,7 +51,7 @@ model Comment {
   userEmail String
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
-  reply     Comment?  @relation("CommentReplies", fields: [commentId], references: [id])
-  commentId Int?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId  Int?
   replies   Comment[] @relation("CommentReplies")
 }

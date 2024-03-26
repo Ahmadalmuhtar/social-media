@@ -26,6 +26,7 @@ export async function getPosts() {
       comments: {
         include: {
           user: true,
+          replies: true,
         },
       },
       likes: true,

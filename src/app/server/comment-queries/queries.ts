@@ -7,11 +7,7 @@ import { CreateCommentPayload, DeleteCommentPayload } from "./types";
 export const createComment = async (payload: CreateCommentPayload) => {
   try {
     await prisma.comment.create({
-      data: {
-        content: payload.content,
-        postId: payload.postId,
-        userEmail: payload.userEmail,
-      },
+      data: payload,
     });
     revalidatePath("/posts");
   } catch (error) {
