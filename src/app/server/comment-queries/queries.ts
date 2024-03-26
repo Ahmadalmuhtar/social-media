@@ -2,6 +2,7 @@
 
 import prisma from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { CreateCommentPayload, DeleteCommentPayload } from "./types";
 
 export const createComment = async (payload: CreateCommentPayload) => {
   try {
@@ -25,6 +26,20 @@ export const getAllCommentsByPost = async (postId: number) => {
         postId,
       },
     });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteCommentById = async (payload: DeleteCommentPayload) => {
+  try {
+    await prisma.comment.delete({
+      where: {
+        id: Number(payload.commentId),
+        userEmail: payload.userEmail,
+      },
+    });
+    revalidatePath("/feeds");
   } catch (error) {
     console.log(error);
   }
