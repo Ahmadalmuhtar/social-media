@@ -19,6 +19,7 @@ model User {
   posts     Post[]
   Like      Like[]
   comments  Comment[]
+  replies   Reply[]
 }
 
 model Post {
@@ -51,4 +52,15 @@ model Comment {
   userEmail String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
+  Replies   Reply[]
+}
+
+model Reply {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  content   String
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId Int
 }
