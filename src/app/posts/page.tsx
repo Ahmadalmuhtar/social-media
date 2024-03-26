@@ -9,7 +9,7 @@ const Posts = async () => {
 
   return (
     <div className="flex justify-center">
-      <div className="grid h-[100vh] grid-cols-1 gap-20">
+      <div className="grid grid-cols-1 gap-10">
         {posts.length > 0 ? (
           posts.map((post) => (
             <>

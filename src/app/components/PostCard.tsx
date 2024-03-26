@@ -82,7 +82,7 @@ export function PostCard({ post }: PostCardProps) {
   };
 
   return (
-    <div className="size-fit flex-col justify-around rounded-md px-4 py-3 ring-1 ring-gray-300">
+    <div className="h-fit w-96 flex-col justify-around rounded-md bg-white px-4 py-3 ring-1 ring-gray-300">
       <div className="flex flex-col space-y-3">
         <div className="flex items-center space-x-4">
           <div className="m-2 flex justify-center space-x-2 text-xs">
@@ -103,7 +103,10 @@ export function PostCard({ post }: PostCardProps) {
           }}
           className="text-left text-lg"
         />
-        <div className="flex justify-between ">
+        <div
+          onClick={() => setShowComments((prev) => !prev)}
+          className="flex justify-between "
+        >
           <p className="text-sm font-semibold text-gray-600">
             {post.likes?.length}
             {post.likes && post.likes?.length < 2 ? " like" : " likes"}
@@ -159,11 +162,13 @@ export function PostCard({ post }: PostCardProps) {
                   className="size-8 rounded-full"
                   src={comment.user.picture}
                 />
-                <div className="flex size-fit flex-col rounded-lg bg-gray-200 p-2">
+                <div className="flex h-fit max-w-96 flex-col rounded-lg bg-gray-200 p-2">
                   <p className="text-sm font-semibold">
                     {comment.user?.firstname}
                   </p>
-                  <p key={comment?.id!}>{comment?.content}</p>
+                  <p className="max-w-fit break-words" key={comment?.id!}>
+                    {comment?.content}
+                  </p>
                   <button>
                     <p
                       onClick={() => handleDeleteComment(comment.id)}
