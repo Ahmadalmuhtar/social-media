@@ -20,19 +20,67 @@ export async function createPost(
   }
 }
 
+// export async function getPosts() {
+//   const posts = await prisma.post.findMany({
+//     include: {
+//       comments: {
+//         include: {
+//           user: true,
+//           replies: {
+//             include: {
+//               user: true,
+//             },
+//           },
+//         },
+//       },
+//       likes: true,
+//       author: true,
+//     },
+//   });
+
+//   // console.log("Posts: ", posts);
+//   return posts;
+// }
+
 export async function getPosts() {
+  // Define the maximum depth for replies
+  const maxDepth = 10;
+
+  // Dynamically construct the include object for replies
+  function constructRepliesInclude(depth) {
+    if (depth === 0) {
+      return {
+        user: true, // Assuming you want to include the user of the last level of replies
+      };
+    } else {
+      return {
+        user: true,
+        replies: {
+          include: constructRepliesInclude(depth - 1),
+        },
+      };
+    }
+  }
+
+  // Construct the include object for comments, starting the recursion
+  const commentsInclude = {
+    user: true,
+    replies: {
+      include: constructRepliesInclude(maxDepth),
+    },
+  };
+
+  // Use the constructed include object in the main query
   const posts = await prisma.post.findMany({
     include: {
       comments: {
-        include: {
-          user: true,
-          replies: true,
-        },
+        include: commentsInclude,
       },
       likes: true,
       author: true,
     },
   });
+
   return posts;
 }
 
