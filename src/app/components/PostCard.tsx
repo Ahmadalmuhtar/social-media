@@ -15,7 +15,8 @@ import { createComment } from "../server/comment-queries/queries";
 import { useSession } from "next-auth/react";
 import { createLike, dislikePostPerId } from "../server/like-queries/queries";
 import { HandThumbDownIcon } from "@heroicons/react/24/outline";
-import ReplySection from "./ReplySection";
+import ReplySection from "./CommentsSection";
+import CommentsSection from "./CommentsSection";
 
 type FullComment = Comment & { replies: Array<Comment>; user: User };
 
@@ -146,7 +147,11 @@ export function PostCard({ post }: PostCardProps) {
         {showComments && (
           <div className="flex flex-col space-y-4">
             {mainComments?.map((comment) => (
-              <ReplySection comment={comment} postId={post.id} />
+              <CommentsSection
+                key={comment.id}
+                comment={comment}
+                postId={post.id}
+              />
             ))}
             <form
               className="flex justify-center space-x-2 pl-10"
