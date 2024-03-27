@@ -11,19 +11,18 @@ import {
   ShareIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import {
-  createComment,
-  deleteCommentById,
-} from "../server/comment-queries/queries";
+import { createComment } from "../server/comment-queries/queries";
 import { useSession } from "next-auth/react";
 import { createLike, dislikePostPerId } from "../server/like-queries/queries";
 import { HandThumbDownIcon } from "@heroicons/react/24/outline";
+import CommentsSection from "./CommentsSection";
 
 type PostCardProps = {
   post: Post & {
     author?: User;
-    // comment?: Comment;
-    comments?: Array<Comment & { user: User }>;
+    comments?: Array<
+      Comment & { user: User; replies: Array<Comment & { user: User }> }
+    >;
     likes?: Array<Like & { user: User }>;
   };
 };
@@ -33,6 +32,8 @@ export function PostCard({ post }: PostCardProps) {
   const [newComment, setNewComment] = useState("");
 
   const { data: session } = useSession();
+
+  const mainComments = post.comments?.filter((item) => !item.parentId);
 
   const hasUserLiked = !!post.likes?.find(
     (item) => item.userEmail === session?.user?.email,
@@ -65,17 +66,6 @@ export function PostCard({ post }: PostCardProps) {
           userEmail: session?.user?.email!,
         });
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId: number) => {
-    try {
-      await deleteCommentById({
-        commentId: commentId,
-        userEmail: session?.user?.email!,
-      });
     } catch (error) {
       console.log(error);
     }
@@ -156,28 +146,13 @@ export function PostCard({ post }: PostCardProps) {
         </div>
         {showComments && (
           <div className="flex flex-col space-y-4">
-            {post.comments?.map((comment) => (
-              <div key={comment.id} className="flex items-center space-x-2">
-                <img
-                  className="size-8 rounded-full"
-                  src={comment.user.picture}
+            {mainComments?.map((comment) => (
+              <div className="m-2">
+                <CommentsSection
+                  key={comment.id}
+                  post={post}
+                  comment={comment}
                 />
-                <div className="flex h-fit max-w-96 flex-col rounded-lg bg-gray-200 p-2">
-                  <p className="text-sm font-semibold">
-                    {comment.user?.firstname}
-                  </p>
-                  <p className="max-w-fit break-words" key={comment?.id!}>
-                    {comment?.content}
-                  </p>
-                  <button>
-                    <p
-                      onClick={() => handleDeleteComment(comment.id)}
-                      className="text-right text-xs text-gray-400"
-                    >
-                      Delete
-                    </p>
-                  </button>
-                </div>
               </div>
             ))}
             <form
