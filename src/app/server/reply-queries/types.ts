@@ -1,6 +1,5 @@
-export type CreateReplyOnACommentPayload = {
+export type CreateReplyOnAComment = {
   userEmail: string;
   commentId: number;
   content: string;
-  postId: number;
 };
