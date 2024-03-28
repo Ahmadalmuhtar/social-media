@@ -1,10 +1,11 @@
 "use server";
 
-import { Post, Prisma } from "@prisma/client";
+import { Post, Prisma, User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { CreatePostPayload, SharePostPayload } from "./types";
 import prisma from "@/app/lib/prisma";
 
+type FullComment = Comment & { user: User; replies?: Array<FullComment> };
 export async function createPost(
   payload: CreatePostPayload,
   authorEmail: string,
@@ -20,18 +21,48 @@ export async function createPost(
   }
 }
 
+async function includeReplies(commentId: number) {
+  const replies = await prisma.comment.findMany({
+    where: {
+      id: commentId,
+    },
+    include: {
+      user: true,
+      replies: true,
+    },
+  });
+  for (let reply of replies) {
+    reply.replies = await includeReplies(reply.id);
+  }
+  return replies;
+}
+
 export async function getPosts() {
   const posts = await prisma.post.findMany({
     include: {
       comments: {
+        where: {
+          parentId: null,
+        },
         include: {
           user: true,
+          replies: {
+            include: {
+              user: true,
+            },
+          },
         },
       },
       likes: true,
       author: true,
     },
   });
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    await includeReplies(post.comments); // Include replies for each comment
+  }
+
   return posts;
 }
 

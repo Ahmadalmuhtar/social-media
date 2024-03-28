@@ -35,9 +35,6 @@ export function SharedPost({ post }: SharedPostProps) {
         userEmail: session?.user?.email!,
       });
       setCommentContent("");
-      if (comment && Array.isArray(comments)) {
-        setComments([...comments, comment]);
-      }
     } catch (error) {
       console.log(error);
     }
