@@ -1,11 +1,10 @@
 "use server";
 
-import { Post, Prisma, User } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { CreatePostPayload, SharePostPayload } from "./types";
+import { CreatePostPayload, FullComment, SharePostPayload } from "./types";
 import prisma from "@/app/lib/prisma";
 
-type FullComment = Comment & { user: User; replies?: Array<FullComment> };
 export async function createPost(
   payload: CreatePostPayload,
   authorEmail: string,
@@ -21,68 +20,48 @@ export async function createPost(
   }
 }
 
-async function includeReplies(commentId: number) {
-  const replies = await prisma.comment.findMany({
-    where: {
-      id: commentId,
-    },
+export async function fetchCommentWithReplies(commentId: number) {
+  const comment = await prisma.comment.findUnique({
+    where: { id: commentId },
     include: {
-      user: true,
-      replies: true,
+      user: true, // Include the user who made the comment
+      replies: true, // Include immediate replies only
     },
   });
-  for (let reply of replies) {
-    reply.replies = await includeReplies(reply.id);
+
+  // If the comment has replies, recursively fetch their replies
+  if (comment?.replies && comment.replies.length > 0) {
+    for (let i = 0; i < comment.replies.length; i++) {
+      // Recursively fetch replies for each reply
+      comment.replies[i] = await fetchCommentWithReplies(comment.replies[i].id);
+    }
   }
-  return replies;
+
+  return comment;
 }
 
+// This function fetches all posts along with their comments, but uses
+// the fetchCommentWithReplies function to recursively fetch replies for each comment
 export async function getPosts() {
   const posts = await prisma.post.findMany({
     include: {
-      comments: {
-        where: {
-          parentId: null,
-        },
-        include: {
-          user: true,
-          replies: {
-            include: {
-              user: true,
-            },
-          },
-        },
-      },
+      comments: true, // Initially, include only top-level comments
       likes: true,
       author: true,
     },
   });
 
-  for (let i = 0; i < posts.length; i++) {
-    const post = posts[i];
-    await includeReplies(post.comments); // Include replies for each comment
+  // Iterate over each post to fetch comments with their nested replies
+  for (const post of posts) {
+    if (post.comments && post.comments.length > 0) {
+      for (let i = 0; i < post.comments.length; i++) {
+        // Replace each top-level comment with its detailed version, including nested replies
+        post.comments[i] = await fetchCommentWithReplies(post.comments[i].id);
+      }
+    }
   }
 
   return posts;
-}
-
-export async function getSharedPosts() {
-  try {
-    const posts = await prisma.post.findMany({
-      where: {
-        isShared: true,
-      },
-      include: {
-        author: true,
-        comments: true,
-        likes: true,
-      },
-    });
-    return posts;
-  } catch (error) {
-    console.log(error);
-    throw new Error("Error getting posts");
-  }
 }
 
 export async function getPostById(postId: number): Promise<Post | null> {
